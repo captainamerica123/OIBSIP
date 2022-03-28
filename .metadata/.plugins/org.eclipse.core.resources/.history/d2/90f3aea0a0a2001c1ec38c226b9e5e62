@@ -1,0 +1,101 @@
+package com.bhushan;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JPasswordField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Color;
+
+public class LoginForm extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField txtEnterUserid;
+	private JPasswordField passwordField;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					LoginForm frame = new LoginForm();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public LoginForm() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(500, 200, 400, 400);
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(175, 238, 238));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("UserID");
+		lblNewLabel.setBounds(51, 78, 71, 17);
+		contentPane.add(lblNewLabel);
+		
+		txtEnterUserid = new JTextField();
+		txtEnterUserid.setBounds(127, 75, 194, 20);
+		contentPane.add(txtEnterUserid);
+		txtEnterUserid.setColumns(10);
+		
+		JLabel lblNewLabel_1 = new JLabel("Password");
+		lblNewLabel_1.setBounds(51, 127, 71, 14);
+		contentPane.add(lblNewLabel_1);
+		
+		JButton btnNewButton = new JButton("Login");
+		btnNewButton.setBackground(new Color(192, 192, 192));
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String userID=txtEnterUserid.getText();
+				String password=String.valueOf(passwordField.getPassword());
+				if(userID=="123" && password=="123")
+				{
+					System.out.println("Login Success...!");			
+				}else {
+					System.out.println("Login Failed...!");			
+
+				}
+
+				
+			}
+		});
+		btnNewButton.setBounds(127, 179, 89, 23);
+		contentPane.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Clear");
+		btnNewButton_1.setBackground(new Color(192, 192, 192));
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtEnterUserid.setText(null);
+				passwordField.setText(null);
+			}
+		});
+		btnNewButton_1.setBounds(232, 179, 89, 23);
+		contentPane.add(btnNewButton_1);
+		
+		passwordField = new JPasswordField();
+		passwordField.setToolTipText("");
+		passwordField.setBounds(127, 124, 194, 20);
+		contentPane.add(passwordField);
+	}
+}

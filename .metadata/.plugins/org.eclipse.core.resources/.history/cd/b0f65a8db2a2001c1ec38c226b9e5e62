@@ -1,0 +1,151 @@
+package com.bhushan;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+/**
+ * User Registration using Swing
+ * @author javaguides.net
+ *
+ */
+public class RegistrationForm extends JFrame {
+    private static final long serialVersionUID = 1L;
+    private JPanel contentPane;
+    private JTextField name;
+    private JTextField phone;
+    private JTextField username;
+    private JPasswordField passwordField;
+    private JButton btnregister;
+    /**
+     * Launch the application.
+     */
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                	RegistrationForm frame = new RegistrationForm();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * Create the frame.
+     */
+
+    public RegistrationForm() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(200, 190, 1014, 400);
+        setResizable(false);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+
+        JLabel lblNewUserRegister = new JLabel("New User Register");
+        lblNewUserRegister.setFont(new Font("Times New Roman", Font.PLAIN, 42));
+        lblNewUserRegister.setBounds(362, 52, 325, 50);
+        contentPane.add(lblNewUserRegister);
+
+        JLabel lblName = new JLabel("Name");
+        lblName.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        lblName.setBounds(58, 152, 99, 43);
+        contentPane.add(lblName);
+
+        JLabel lblphone = new JLabel("Phone");
+        lblphone.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        lblphone.setBounds(58, 243, 110, 29);
+        contentPane.add(lblphone);
+
+        name = new JTextField();
+        name.setFont(new Font("Tahoma", Font.PLAIN, 32));
+        name.setBounds(214, 151, 228, 50);
+        contentPane.add(name);
+        name.setColumns(10);
+
+        phone = new JTextField();
+        phone.setFont(new Font("Tahoma", Font.PLAIN, 32));
+        phone.setBounds(214, 235, 228, 50);
+        contentPane.add(phone);
+        phone.setColumns(10);
+
+        username = new JTextField();
+        username.setFont(new Font("Tahoma", Font.PLAIN, 32));
+        username.setBounds(707, 151, 228, 50);
+        contentPane.add(username);
+        username.setColumns(10);
+
+        JLabel lblUserID = new JLabel("UserID");
+        lblUserID.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        lblUserID.setBounds(542, 159, 99, 29);
+        contentPane.add(lblUserID);
+
+        JLabel lblPassword = new JLabel("Password");
+        lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        lblPassword.setBounds(542, 245, 99, 24);
+        contentPane.add(lblPassword);
+
+        passwordField = new JPasswordField();
+        passwordField.setFont(new Font("Tahoma", Font.PLAIN, 32));
+        passwordField.setBounds(707, 235, 228, 50);
+        contentPane.add(passwordField);
+
+        btnregister = new JButton("Register");
+        btnregister.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String Name = name.getText();
+                String Phone = phone.getText();
+                String UserID = username.getText();
+                int len = Phone.length();
+                String password = passwordField.getText();
+
+                String msg = "" + Name;
+                msg += " \n";
+                if (len != 10) {
+                    JOptionPane.showMessageDialog(btnregister, "Enter a valid mobile number");
+                }
+
+                try {
+                    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/onlineexamdb", "root", "Bhushan@141");
+
+                    String query = "INSERT INTO user values('" + UserID + "','" + password + "','" +
+                        Name + "','" + Phone + "')";
+
+                    Statement sta = connection.createStatement();
+                    int x = sta.executeUpdate(query);
+                    if (x == 0) {
+                        JOptionPane.showMessageDialog(btnregister, "This is alredy exist");
+                    } else {
+                        JOptionPane.showMessageDialog(btnregister,
+                            "Welcome, " + msg + "Your account is sucessfully created");
+                    }
+                    connection.close();
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
+        });
+        btnregister.setFont(new Font("Tahoma", Font.PLAIN, 22));
+        btnregister.setBounds(445, 358, 259, 74);
+        contentPane.add(btnregister);
+    }
+}

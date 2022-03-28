@@ -1,0 +1,93 @@
+package com.bhushan;
+
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JPasswordField;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.awt.event.ActionEvent;
+import java.awt.Color;
+import java.awt.Font;
+
+public class LoginForm extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField UserIDTextField;
+	private JPasswordField passwordField;
+    private JButton btnlogin;
+
+	 // Create the frame.
+	
+	public LoginForm() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(200, 190, 1014, 500);
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(0, 191, 255));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+			JLabel lbluserid = new JLabel("UserID");
+			lbluserid.setFont(new Font("Tahoma", Font.PLAIN, 20));
+			lbluserid.setBounds(58, 152, 99, 43);
+	        contentPane.add(lbluserid);
+		
+	        UserIDTextField = new JTextField();
+	        UserIDTextField.setFont(new Font("Tahoma", Font.PLAIN, 32));
+	        UserIDTextField.setBounds(214, 151, 228, 50);
+	        contentPane.add(UserIDTextField);
+	        UserIDTextField.setColumns(10);
+		
+	        JLabel lblpassword = new JLabel("password");
+	        lblpassword.setFont(new Font("Tahoma", Font.PLAIN, 20));
+	        lblpassword.setBounds(58, 243, 110, 29);
+	        contentPane.add(lblpassword);
+	        
+	        passwordField = new JPasswordField();
+	        passwordField.setFont(new Font("Tahoma", Font.PLAIN, 32));
+	        passwordField.setBounds(214, 228, 228, 50);
+	        contentPane.add(passwordField);
+		
+		JButton btnNewButton_1 = new JButton("Clear");
+		btnNewButton_1.setBackground(new Color(192, 192, 192));
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UserIDTextField.setText(null);
+				passwordField.setText(null);
+			}
+		});
+		btnlogin = new JButton("Login");
+		btnlogin.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+ 
+                try {
+                    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/onlineexamdb", "root", "Bhushan@141");
+
+                    String query = "SELECT * FROM user";
+
+                    Statement sta = connection.createStatement();
+                    int x = sta.executeUpdate(query);
+                    if (x!=0) {
+                        JOptionPane.showMessageDialog(btnlogin, "Login Successful...!");
+                  
+                    }
+                    connection.close();
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
+        });
+        btnregister.setFont(new Font("Tahoma", Font.PLAIN, 22));
+        btnregister.setBounds(445, 358, 259, 74);
+        contentPane.add(btnregister);
+		
+	}
+}

@@ -1,0 +1,23 @@
+package com.bhushan;
+
+import java.awt.EventQueue;
+
+public class Login {
+
+	public static void main(String[] args) {
+		 System.out.println("connection"+ DBConnection.getConnection());
+
+	        new LoginForm();
+	        new RegistrationForm();
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					LoginForm frame = new LoginForm();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+}
